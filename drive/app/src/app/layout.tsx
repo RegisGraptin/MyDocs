@@ -13,6 +13,7 @@ import Header from "@/components/shared/header";
 
 import "@/styles/globals.css";
 import { WalletProvider } from "@/components/wallet/WalletProvider";
+import { DataProvider } from "@/components/calimero/DataProvider";
 
 export const metadata: Metadata = {
   title: "Next Tiptap",
@@ -37,17 +38,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
-    <html
-      lang="en"
-      className={`${fontMono.variable} ${fontSans.variable} antialiased`}
-    >
-      <body>
-        <WalletProvider>
-          <Header />
-          <main>{children}</main>
-        </WalletProvider>
-      </body>
-    </html>
-  );
+    
+      <html
+        lang="en"
+        className={`${fontMono.variable} ${fontSans.variable} antialiased`}
+      >
+        <body>
+          <DataProvider>
+
+          <WalletProvider>
+            <Header />
+            <main>{children}</main>
+          </WalletProvider>
+            </DataProvider>
+
+        </body>
+      </html>
+  )
 }

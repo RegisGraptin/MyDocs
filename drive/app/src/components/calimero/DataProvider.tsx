@@ -1,0 +1,28 @@
+"use client";
+
+import { CalimeroProvider, AppMode } from '@calimero-network/calimero-client';
+import { useEffect, useState } from 'react';
+
+export function DataProvider({ children }: { children: React.ReactNode }) {
+
+    const clientAppId = '36BREwJPfxv2GPc1sSNmdAbTqTNzuhiWszfcwBS57krn';
+    const [applicationPath, setApplicationPath] = useState<string | null>(null);
+
+    // Only access `window` on the client
+    useEffect(() => {
+        setApplicationPath(window.location?.pathname || '/');
+    }, []);
+
+    // While on the server (or before mount), don't render provider that accesses window
+    if (!applicationPath) return null;
+
+    return (
+        <CalimeroProvider
+            clientApplicationId={clientAppId}
+            applicationPath={applicationPath}
+            mode={AppMode.MultiContext}
+        >
+            {children}
+        </CalimeroProvider>
+    );
+}

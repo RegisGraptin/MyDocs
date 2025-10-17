@@ -1,0 +1,2 @@
+onlyBuiltDependencies:
+  - '@calimero-network/merobox-js'
