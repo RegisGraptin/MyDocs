@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { JetBrains_Mono, Open_Sans } from "next/font/google";
 
+import "@rainbow-me/rainbowkit/styles.css";
+
 const fontMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
@@ -10,6 +12,7 @@ const fontSans = Open_Sans({ subsets: ["latin"], variable: "--font-sans" });
 import Header from "@/components/shared/header";
 
 import "@/styles/globals.css";
+import { WalletProvider } from "@/components/wallet/WalletProvider";
 
 export const metadata: Metadata = {
   title: "Next Tiptap",
@@ -40,8 +43,10 @@ export default function RootLayout({
       className={`${fontMono.variable} ${fontSans.variable} antialiased`}
     >
       <body>
-        <Header />
-        <main>{children}</main>
+        <WalletProvider>
+          <Header />
+          <main>{children}</main>
+        </WalletProvider>
       </body>
     </html>
   );

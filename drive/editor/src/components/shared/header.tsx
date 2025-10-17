@@ -6,8 +6,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import ThemeSwitcher from "./theme-switcher";
-import GithubIcon from "../../assets/github.svg";
 import Logo from "../../assets/logo.svg";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const Header = () => {
   const pathname = usePathname();
@@ -19,17 +19,9 @@ const Header = () => {
         <Link href="/">
           <Logo width={120} />
         </Link>
-        <Link
-          href={isEditPage ? "/post-csr" : "/"}
-          className="px-4 py-2 text-sm font-medium rounded-lg border border-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
-        >
-          {isEditPage ? "View Post" : "Edit Post"}
-        </Link>
         <div className="flex gap-5">
           <ThemeSwitcher />
-          <Link href="https://github.com/ndtrung341/next-tiptap">
-            <GithubIcon className="size-5" />
-          </Link>
+          <ConnectButton />
         </div>
       </div>
     </header>
