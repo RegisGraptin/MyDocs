@@ -14,6 +14,7 @@ import Header from "@/components/shared/header";
 import "@/styles/globals.css";
 import { WalletProvider } from "@/components/wallet/WalletProvider";
 import { DataProvider } from "@/components/calimero/DataProvider";
+import { ToastProvider } from "@calimero-network/mero-ui";
 
 export const metadata: Metadata = {
   title: "Next Tiptap",
@@ -40,21 +41,19 @@ export default function RootLayout({
 }>) {
 
   return (
-    
-      <html
-        lang="en"
-        className={`${fontMono.variable} ${fontSans.variable} antialiased`}
-      >
-        <body>
-          <DataProvider>
 
+    <html
+      lang="en"
+      className={`${fontMono.variable} ${fontSans.variable} antialiased`}
+    >
+      <body>
+        <DataProvider>
           <WalletProvider>
             <Header />
             <main>{children}</main>
           </WalletProvider>
-            </DataProvider>
-
-        </body>
-      </html>
+        </DataProvider>
+      </body>
+    </html>
   )
 }

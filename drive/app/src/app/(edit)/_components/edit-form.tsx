@@ -48,7 +48,7 @@ export default function EditForm() {
       {/* Title */}
       <div>
         <label className="inline-block font-medium dark:text-white mb-2">
-          Title
+          Title test
         </label>
         <Controller
           control={form.control}

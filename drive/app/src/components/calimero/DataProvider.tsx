@@ -1,6 +1,7 @@
 "use client";
 
 import { CalimeroProvider, AppMode } from '@calimero-network/calimero-client';
+import { ToastProvider } from '@calimero-network/mero-ui';
 import { useEffect, useState } from 'react';
 
 export function DataProvider({ children }: { children: React.ReactNode }) {
@@ -22,7 +23,9 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
             applicationPath={applicationPath}
             mode={AppMode.MultiContext}
         >
-            {children}
+            <ToastProvider>
+                {children}
+            </ToastProvider>
         </CalimeroProvider>
     );
 }
