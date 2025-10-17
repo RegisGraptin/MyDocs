@@ -7,6 +7,39 @@ import {
 
 // Generated types
 
+export type DocOpPayload =
+  | { name: 'Insert'; payload: DocOp_Insert }
+  | { name: 'Delete'; payload: DocOp_Delete }
+
+export const DocOp = {
+  Insert: (insert: DocOp_Insert): DocOpPayload => ({ name: 'Insert', payload: insert }),
+  Delete: (delete_: DocOp_Delete): DocOpPayload => ({ name: 'Delete', payload: delete_ }),
+} as const;
+
+export interface DocOp_Delete {
+  index: number;
+  len: number;
+}
+
+export interface DocOp_Insert {
+  index: number;
+  content: string;
+}
+
+export interface DocumentView {
+  content: string;
+  version: number;
+  updated_ms: number;
+  last_editor: string | null;
+}
+
+
+
+export type AbiEvent =
+  | { name: "DocumentCreated" }
+  | { name: "DocumentUpdated" }
+;
+
 
 /**
  * Utility class for handling byte conversions in Calimero
@@ -111,6 +144,54 @@ export class AbiClient {
   constructor(app: CalimeroApp, context: Context) {
     this.app = app;
     this.context = context;
+  }
+
+  /**
+   * init
+   */
+  public async init(): Promise<void> {
+    const response = await this.app.execute(this.context, 'init', {});
+    if (response.success) {
+      return response.result as void;
+    } else {
+      throw new Error(response.error || 'Execution failed');
+    }
+  }
+
+  /**
+   * create_document
+   */
+  public async createDocument(params: { content: string }): Promise<number> {
+    const response = await this.app.execute(this.context, 'create_document', params);
+    if (response.success) {
+      return response.result as number;
+    } else {
+      throw new Error(response.error || 'Execution failed');
+    }
+  }
+
+  /**
+   * apply_ops
+   */
+  public async applyOps(params: { ops: DocOp[]; expected_version: number | null }): Promise<number> {
+    const response = await this.app.execute(this.context, 'apply_ops', params);
+    if (response.success) {
+      return response.result as number;
+    } else {
+      throw new Error(response.error || 'Execution failed');
+    }
+  }
+
+  /**
+   * get_document
+   */
+  public async getDocument(): Promise<DocumentView> {
+    const response = await this.app.execute(this.context, 'get_document', {});
+    if (response.success) {
+      return response.result as DocumentView;
+    } else {
+      throw new Error(response.error || 'Execution failed');
+    }
   }
 
 }

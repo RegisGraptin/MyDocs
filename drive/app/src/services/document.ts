@@ -4,25 +4,35 @@ import { createKvClient } from '../features/kv/api';
 type Api = any;
 
 async function getApi(app: CalimeroApp): Promise<Api> {
+
+        console.log('here ???');
   return await createKvClient(app);
 }
 
 // Try multiple method name variants to be resilient against generated client names
 async function tryCall(api: Api, names: string[], args?: any) {
+  console.log('[documentService] tryCall: trying methods', names, 'args=', args);
   for (const n of names) {
     try {
       if (typeof api[n] === 'function') {
-        return await api[n](args);
+        const res = await api[n](args);
+        console.log(`[documentService] method ${n} succeeded`, res);
+        return res;
       }
     } catch (e) {
+      console.warn(`[documentService] method ${n} failed`, e);
       // try next
     }
   }
   // fallback: if api.call exists (generic), try that
   if (typeof api.call === 'function') {
     try {
-      return await api.call(args?.method || names[0], args?.params || args);
+      console.log('[documentService] falling back to api.call with method', args?.method || names[0]);
+      const res = await api.call(args?.method || names[0], args?.params || args);
+      console.log('[documentService] api.call succeeded', res);
+      return res;
     } catch (e) {
+      console.warn('[documentService] api.call failed', e);
       // fallthrough
     }
   }

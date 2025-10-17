@@ -1,6 +1,148 @@
 {
   "schema_version": "wasm-abi/1",
-  "types": {},
-  "methods": [],
-  "events": []
+  "types": {
+    "DocOp": {
+      "kind": "variant",
+      "variants": [
+        {
+          "name": "Insert",
+          "payload": {
+            "$ref": "DocOp_Insert"
+          }
+        },
+        {
+          "name": "Delete",
+          "payload": {
+            "$ref": "DocOp_Delete"
+          }
+        }
+      ]
+    },
+    "DocOp_Delete": {
+      "kind": "record",
+      "fields": [
+        {
+          "name": "index",
+          "type": {
+            "kind": "u32"
+          }
+        },
+        {
+          "name": "len",
+          "type": {
+            "kind": "u32"
+          }
+        }
+      ]
+    },
+    "DocOp_Insert": {
+      "kind": "record",
+      "fields": [
+        {
+          "name": "index",
+          "type": {
+            "kind": "u32"
+          }
+        },
+        {
+          "name": "content",
+          "type": {
+            "kind": "string"
+          }
+        }
+      ]
+    },
+    "DocumentView": {
+      "kind": "record",
+      "fields": [
+        {
+          "name": "content",
+          "type": {
+            "kind": "string"
+          }
+        },
+        {
+          "name": "version",
+          "type": {
+            "kind": "u64"
+          }
+        },
+        {
+          "name": "updated_ms",
+          "type": {
+            "kind": "u64"
+          }
+        },
+        {
+          "name": "last_editor",
+          "type": {
+            "kind": "string"
+          },
+          "nullable": true
+        }
+      ]
+    }
+  },
+  "methods": [
+    {
+      "name": "init",
+      "params": [],
+      "returns": {
+        "kind": "unit"
+      }
+    },
+    {
+      "name": "create_document",
+      "params": [
+        {
+          "name": "content",
+          "type": {
+            "kind": "string"
+          }
+        }
+      ],
+      "returns": {
+        "kind": "u64"
+      }
+    },
+    {
+      "name": "apply_ops",
+      "params": [
+        {
+          "name": "ops",
+          "type": {
+            "kind": "list",
+            "items": {
+              "$ref": "DocOp"
+            }
+          }
+        },
+        {
+          "name": "expected_version",
+          "type": {
+            "kind": "u64"
+          },
+          "nullable": true
+        }
+      ],
+      "returns": {
+        "kind": "u64"
+      }
+    },
+    {
+      "name": "get_document",
+      "params": [],
+      "returns": {
+        "$ref": "DocumentView"
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "DocumentCreated"
+    },
+    {
+      "name": "DocumentUpdated"
+    }
+  ]
 }
