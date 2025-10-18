@@ -2,7 +2,8 @@
 
 <br />
 <div align="center">
-    <img src="./drive/app/public/logo.png" alt="Logo" width="80" height="80">
+
+  ![MyDocs Logo](logo.jpeg)
 
   <h3 align="center">MyDocs</h3>
 
