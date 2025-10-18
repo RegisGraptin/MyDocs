@@ -10,14 +10,14 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
 import ThemeSwitcher from "./theme-switcher";
-import Logo from "../../assets/logo.svg";
+import Image from "next/image";
 
 const Header = () => {
   return (
     <header className="sticky z-50 top-0 px-6 border-b border-neutral-300 dark:border-neutral-700 bg-white/20 dark:bg-[#0d101820] backdrop-blur-lg">
       <div className="h-16 max-w-screen-xl w-full mx-auto flex items-center justify-between gap-6">
         <Link href="/">
-          <Logo width={120} />
+          <Image alt={"logo"} src="/logo.png" width={50} height={50} />
         </Link>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3">

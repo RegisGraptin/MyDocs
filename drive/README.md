@@ -15,6 +15,7 @@ Quick commands
 pnpm run app:install
 ```
 
+
 2) Build the Rust backend (WASM)
 
 ```bash
@@ -24,6 +25,7 @@ pnpm run logic:build
 3) Sync the built WASM into the frontend app
 
 ```bash
+pnpm run network:bootstrap
 pnpm run logic:sync ./logic/res/kv_store.wasm
 ```
 
@@ -57,3 +59,16 @@ If you'd like, I can also:
 - run a quick build and verify the WASM file appears in the expected `logic/target` path
 
 Completion: README simplified and exact sync commands added.
+
+
+## Docker clean commands
+
+```bash
+docker stop $(docker ps -q)
+docker rm $(docker ps -a -q)
+docker rmi -f $(docker images -q)
+docker volume rm $(docker volume ls -q)
+docker network rm $(docker network ls -q)
+docker system prune -a --volumes
+```
+
