@@ -207,8 +207,6 @@ export class AbiClient {
    */
   public async ping(params: { addr: string; payload: string }): Promise<void> {
     const response = await this.app.execute(this.context, 'ping', params);
-    console.log(params)
-    console.log(response)
     if (response.success) {
       return response.result as void;
     } else {
