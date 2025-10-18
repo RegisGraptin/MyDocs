@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+
 import { useCalimero } from '@calimero-network/calimero-client';
+
 import documentService from '@/services/document';
 
 export interface DocumentView {
@@ -44,7 +46,7 @@ export function useDocument({ contextId, onUpdate }: UseDocumentOptions) {
       if (eventData.events && Array.isArray(eventData.events)) {
         for (const executionEvent of eventData.events) {
           const kind = executionEvent.kind;
-          let raw = executionEvent.data;
+          const raw = executionEvent.data;
 
           if (!kind || raw === undefined || raw === null) continue;
 

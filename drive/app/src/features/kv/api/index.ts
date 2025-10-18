@@ -1,5 +1,6 @@
-import { AbiClient, AbiEvent } from '../../../api/AbiClient';
 import { CalimeroApp } from '@calimero-network/calimero-client';
+
+import { AbiClient, AbiEvent } from '../../../api/AbiClient';
 
 export { AbiClient };
 export type { AbiEvent };

@@ -25,7 +25,7 @@ export default function useProgress(containerSelector: string) {
     return () => {
       observer.unobserve(container);
     };
-  }, [containerSelector]);
+  }, [containerSelector, enable]);
 
   React.useEffect(() => {
     const container = document.body.querySelector(containerSelector);

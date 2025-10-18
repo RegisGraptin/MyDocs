@@ -1,6 +1,9 @@
-import { mockData } from "@/mock";
 import { CalimeroApp } from '@calimero-network/calimero-client';
+
+import { mockData } from "@/mock";
+
 import documentService from './document';
+
 import type { DocOpPayload, DocOp_Insert, DocOp_Delete } from '@/api/AbiClient';
 
 const mock = mockData.html;
@@ -31,6 +34,7 @@ const getPost = async (app?: CalimeroApp): Promise<Post> => {
           return parsed;
         } catch (e) {
           // content not JSON — fall back to mock
+          console.warn("Failed to parsed data")
           return mock as Post;
         }
       }

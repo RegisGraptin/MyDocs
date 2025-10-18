@@ -9,12 +9,10 @@ const fontMono = JetBrains_Mono({
 });
 const fontSans = Open_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
-import Header from "@/components/shared/header";
-
-import "@/styles/globals.css";
-import { WalletProvider } from "@/components/wallet/WalletProvider";
 import { DataProvider } from "@/components/calimero/DataProvider";
-import { ToastProvider } from "@calimero-network/mero-ui";
+import Header from "@/components/shared/header";
+import { WalletProvider } from "@/components/wallet/WalletProvider";
+import "@/styles/globals.css";
 
 export const metadata: Metadata = {
   title: "Next Tiptap",

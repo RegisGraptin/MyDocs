@@ -1,6 +1,7 @@
 "use client";
 
 import { useCalimero } from "@calimero-network/calimero-client";
+
 import EditForm from "./_components/edit-form";
 
 import "./style.scss";

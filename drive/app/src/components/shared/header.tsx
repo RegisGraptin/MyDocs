@@ -2,11 +2,16 @@
 
 import React from "react";
 
+import {
+  CalimeroConnectButton,
+  ConnectionType,
+} from "@calimero-network/calimero-client";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
+
+import { DisplayUser } from "./DisplayUser";
 import ThemeSwitcher from "./theme-switcher";
 import Logo from "../../assets/logo.svg";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { CalimeroConnectButton, ConnectionType } from "@calimero-network/calimero-client";
 
 const Header = () => {
   return (
@@ -15,8 +20,11 @@ const Header = () => {
         <Link href="/">
           <Logo width={120} />
         </Link>
-        <div className="flex gap-5">
-          <ThemeSwitcher />
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <ThemeSwitcher />
+          </div>
+          <DisplayUser />
           <CalimeroConnectButton connectionType={ConnectionType.Remote} />
           <ConnectButton />
         </div>

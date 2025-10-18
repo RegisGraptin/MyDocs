@@ -1,12 +1,13 @@
 "use client";
 
+import { useEffect, useState } from 'react';
+
 import { CalimeroProvider, AppMode } from '@calimero-network/calimero-client';
 import { ToastProvider } from '@calimero-network/mero-ui';
-import { useEffect, useState } from 'react';
 
 export function DataProvider({ children }: { children: React.ReactNode }) {
 
-    const clientAppId = '98SmzgEyQv4paT1PanG7VCSUPCjXoN1WM1skNyR9pE22';
+    const clientAppId = '9k5X9NoikqbWQM1YoN9gj3HYN7cAWXyBzRQRuyZDDFtN';
     const [applicationPath, setApplicationPath] = useState<string | null>(null);
 
     // Only access `window` on the client

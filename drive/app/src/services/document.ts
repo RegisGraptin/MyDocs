@@ -1,11 +1,10 @@
 import { CalimeroApp } from '@calimero-network/calimero-client';
+
 import { createKvClient } from '../features/kv/api';
 
 type Api = any;
 
 async function getApi(app: CalimeroApp): Promise<Api> {
-
-        console.log('here ???');
   return await createKvClient(app);
 }
 

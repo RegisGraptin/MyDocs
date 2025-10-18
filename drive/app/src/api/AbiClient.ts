@@ -181,7 +181,7 @@ export class AbiClient {
   /**
    * apply_ops
    */
-  public async applyOps(params: { ops: DocOp[]; expected_version: number | null }): Promise<number> {
+  public async applyOps(params: { ops: typeof DocOp[]; expected_version: number | null }): Promise<number> {
     const response = await this.app.execute(this.context, 'apply_ops', params);
     if (response.success) {
       return response.result as number;
