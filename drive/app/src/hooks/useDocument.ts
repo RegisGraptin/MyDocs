@@ -56,6 +56,7 @@ export function useDocument({ contextId, onUpdate }: UseDocumentOptions) {
               const decoder = new TextDecoder();
               const jsonStr = decoder.decode(new Uint8Array(raw));
               const payload = JSON.parse(jsonStr);
+              console.log(kind, "kind")
               if (kind === 'DocumentCreated') {
                 return { content: payload.content || '', version: payload.version };
               }
@@ -65,6 +66,7 @@ export function useDocument({ contextId, onUpdate }: UseDocumentOptions) {
             }
           } catch (e) {
             // ignore decode errors
+            console.log(e)
           }
         }
       }

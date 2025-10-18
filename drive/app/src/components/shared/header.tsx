@@ -9,7 +9,6 @@ import {
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
-import { DisplayUser } from "./DisplayUser";
 import ThemeSwitcher from "./theme-switcher";
 import Logo from "../../assets/logo.svg";
 
@@ -24,7 +23,6 @@ const Header = () => {
           <div className="flex items-center gap-3">
             <ThemeSwitcher />
           </div>
-          <DisplayUser />
           <CalimeroConnectButton connectionType={ConnectionType.Remote} />
           <ConnectButton />
         </div>

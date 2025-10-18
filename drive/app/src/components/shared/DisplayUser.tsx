@@ -3,19 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 
 import { useCalimero } from "@calimero-network/calimero-client";
+import { Address } from "viem";
 import { useAccount } from "wagmi";
 
 import { useCalimeroClient } from "@/hooks/use-calimero-client";
+
+import { Avatar } from "./users/Avatar";
+
 
 type PresenceEntry = {
   address: string;
   last_seen_ms: number;
   payload: string;
-};
-
-const shortAddr = (a: string) => {
-  if (!a) return "";
-  return a.length > 12 ? `${a.slice(0, 6)}...${a.slice(-4)}` : a;
 };
 
 export const DisplayUser = () => {
@@ -24,7 +23,22 @@ export const DisplayUser = () => {
   const { address: userAddress } = useAccount();
   const userAddressRef = useRef<string | null>(null);
 
-  const [activeUsers, setActiveUsers] = useState<PresenceEntry[]>([]);
+  const [activeUsers, setActiveUsers] = useState<PresenceEntry[]>([
+    {
+      address: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+      last_seen_ms: 10,
+      payload: "",
+    },
+    ...(userAddress
+      ? [
+          {
+            address: userAddress.toString(),
+            last_seen_ms: 10,
+            payload: "",
+          },
+        ]
+      : []),
+  ]);
 
   const currentSubscriptionRef = useRef<string | null>(null);
 
@@ -217,27 +231,29 @@ export const DisplayUser = () => {
   }
 
   return (
-    <div className="flex items-center gap-3">
-      {activeUsers.length > 0 ? (
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-neutral-600 dark:text-neutral-300">
-            Online:
-          </span>
-          <div className="flex gap-2">
-            {activeUsers.slice(0, 5).map((a) => (
-              <div
-                key={a.address}
-                title={`${a.address} • ${new Date(a.last_seen_ms).toLocaleTimeString()}`}
-                className="px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-xs"
-              >
-                {shortAddr(a.address)}
-              </div>
-            ))}
+    <header className="sticky z-0 top-0 px-6 border-b border-neutral-300 dark:border-neutral-700 bg-white/20 dark:bg-[#0d101820] backdrop-blur-lg">
+      <div className="h-16 max-w-screen-xl w-full mx-auto flex items-center justify-between gap-6">
+        {activeUsers.length > 0 ? (
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-neutral-600 dark:text-neutral-300">
+              Online:
+            </span>
+            <div className="flex gap-2">
+              {activeUsers.slice(0, 5).map((a) => (
+                <div
+                  key={a.address}
+                  title={`${a.address} • ${new Date(a.last_seen_ms).toLocaleTimeString()}`}
+                  className="px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-xs"
+                >
+                  <Avatar key={a.address} userAddress={a.address as Address} />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="text-sm text-neutral-500">No users</div>
-      )}
-    </div>
+        ) : (
+          <div className="text-sm text-neutral-500">No users</div>
+        )}
+      </div>
+    </header>
   );
 };

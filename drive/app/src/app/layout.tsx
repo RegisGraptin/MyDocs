@@ -10,6 +10,7 @@ const fontMono = JetBrains_Mono({
 const fontSans = Open_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
 import { DataProvider } from "@/components/calimero/DataProvider";
+import { DisplayUser } from "@/components/shared/DisplayUser";
 import Header from "@/components/shared/header";
 import { WalletProvider } from "@/components/wallet/WalletProvider";
 import "@/styles/globals.css";
@@ -45,6 +46,7 @@ export default function RootLayout({
         <DataProvider>
           <WalletProvider>
             <Header />
+            <DisplayUser />
             <main>{children}</main>
           </WalletProvider>
         </DataProvider>

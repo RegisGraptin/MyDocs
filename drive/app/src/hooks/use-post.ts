@@ -64,7 +64,7 @@ export function usePost() {
   }, [app, appUrl]);
 
   // Subscribe to on-chain document events for live sync
-  const { doc, isSubscribed, error, subscribe, unsubscribe, refresh } =
+  const { isSubscribed, error, refresh } =
     useDocument({
       contextId,
       onUpdate: (d) => {
