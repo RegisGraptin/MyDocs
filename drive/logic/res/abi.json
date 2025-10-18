@@ -81,6 +81,29 @@
           "nullable": true
         }
       ]
+    },
+    "PresenceEntry": {
+      "kind": "record",
+      "fields": [
+        {
+          "name": "address",
+          "type": {
+            "kind": "string"
+          }
+        },
+        {
+          "name": "last_seen_ms",
+          "type": {
+            "kind": "u64"
+          }
+        },
+        {
+          "name": "payload",
+          "type": {
+            "kind": "string"
+          }
+        }
+      ]
     }
   },
   "methods": [
@@ -135,6 +158,58 @@
       "returns": {
         "$ref": "DocumentView"
       }
+    },
+    {
+      "name": "ping",
+      "params": [
+        {
+          "name": "addr",
+          "type": {
+            "kind": "string"
+          }
+        },
+        {
+          "name": "payload",
+          "type": {
+            "kind": "string"
+          }
+        }
+      ],
+      "returns": {
+        "kind": "unit"
+      }
+    },
+    {
+      "name": "get_active_users",
+      "params": [
+        {
+          "name": "ttl_ms",
+          "type": {
+            "kind": "u64"
+          },
+          "nullable": true
+        }
+      ],
+      "returns": {
+        "kind": "list",
+        "items": {
+          "$ref": "PresenceEntry"
+        }
+      }
+    },
+    {
+      "name": "purge_stale",
+      "params": [
+        {
+          "name": "ttl_ms",
+          "type": {
+            "kind": "u64"
+          }
+        }
+      ],
+      "returns": {
+        "kind": "unit"
+      }
     }
   ],
   "events": [
@@ -143,6 +218,9 @@
     },
     {
       "name": "DocumentUpdated"
+    },
+    {
+      "name": "UserPing"
     }
   ]
 }

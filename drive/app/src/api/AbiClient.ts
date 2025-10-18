@@ -33,11 +33,19 @@ export interface DocumentView {
   last_editor: string | null;
 }
 
+export interface PresenceEntry {
+  address: string;
+  last_seen_ms: number;
+  payload: string;
+}
+
+
 
 
 export type AbiEvent =
   | { name: "DocumentCreated" }
   | { name: "DocumentUpdated" }
+  | { name: "UserPing" }
 ;
 
 
@@ -189,6 +197,44 @@ export class AbiClient {
     const response = await this.app.execute(this.context, 'get_document', {});
     if (response.success) {
       return response.result as DocumentView;
+    } else {
+      throw new Error(response.error || 'Execution failed');
+    }
+  }
+
+  /**
+   * ping
+   */
+  public async ping(params: { addr: string; payload: string }): Promise<void> {
+    const response = await this.app.execute(this.context, 'ping', params);
+    console.log(params)
+    console.log(response)
+    if (response.success) {
+      return response.result as void;
+    } else {
+      throw new Error(response.error || 'Execution failed');
+    }
+  }
+
+  /**
+   * get_active_users
+   */
+  public async getActiveUsers(params: { ttl_ms: number | null }): Promise<PresenceEntry[]> {
+    const response = await this.app.execute(this.context, 'get_active_users', params);
+    if (response.success) {
+      return response.result as PresenceEntry[];
+    } else {
+      throw new Error(response.error || 'Execution failed');
+    }
+  }
+
+  /**
+   * purge_stale
+   */
+  public async purgeStale(params: { ttl_ms: number }): Promise<void> {
+    const response = await this.app.execute(this.context, 'purge_stale', params);
+    if (response.success) {
+      return response.result as void;
     } else {
       throw new Error(response.error || 'Execution failed');
     }

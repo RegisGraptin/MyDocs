@@ -25,6 +25,8 @@ pub enum Event {
     DocumentCreated { content: String, version: u64 },
     /// Emitted when the shared document is updated
     DocumentUpdated { content: String, version: u64, editor: String },
+
+    UserPing {addr: String, last_seen_ms: u64},
 }
 
 // ============================================================================
@@ -50,6 +52,16 @@ struct Element {
     visible: bool,
     created_ms: u64,
     editor: String,
+}
+
+#[derive(Debug, Clone, BorshSerialize, BorshDeserialize, Serialize, Deserialize)]
+#[borsh(crate = "calimero_sdk::borsh")]
+#[serde(crate = "calimero_sdk::serde")]
+pub struct PresenceEntry {
+    pub address: String,
+    pub last_seen_ms: u64,
+    /// Optional payload provided by the client (can contain a short status or nonce)
+    pub payload: String,
 }
 
 #[derive(Debug, Clone, BorshSerialize, BorshDeserialize, Serialize, Deserialize)]
@@ -88,6 +100,8 @@ pub struct SharedDocument {
     updated_ms: u64,
     last_editor: Option<String>,
     elems: Vec<Element>,
+    // presence entries for active users
+    presence_entries: Vec<PresenceEntry>,
     id_nonce: u64,
 }
 
@@ -122,6 +136,7 @@ impl SharedDocument {
             updated_ms: env::time_now(),
             last_editor: None,
             elems: Vec::new(),
+            presence_entries: Vec::new(),
             id_nonce: 0,
         }
     }
@@ -194,6 +209,47 @@ impl SharedDocument {
 
     pub fn get_document(&self) -> app::Result<DocumentView> {
         Ok(DocumentView { content: self.content.clone(), version: self.version, updated_ms: self.updated_ms, last_editor: self.last_editor.clone() })
+    }
+
+    // Presence methods embedded in SharedDocument
+    /// Ping from the current executor. Records the executor address, payload and timestamp.
+    pub fn ping(&mut self, addr: String, payload: String) -> app::Result<()> {
+        let now = env::time_now();
+
+        for e in self.presence_entries.iter_mut() {
+            if e.address == addr {
+                e.last_seen_ms = now;
+                e.payload = payload.clone();
+                return Ok(());
+            }
+        }
+        self.presence_entries.push(PresenceEntry { address: addr.clone(), last_seen_ms: now, payload });
+        
+        app::emit!(Event::UserPing { addr: addr.clone(), last_seen_ms: now });
+        Ok(())
+    }
+
+    /// Return active entries within the provided TTL (milliseconds). If ttl_ms is None, returns all entries.
+    pub fn get_active_users(&self, ttl_ms: Option<u64>) -> app::Result<Vec<PresenceEntry>> {
+        let now = env::time_now();
+        let mut out: Vec<PresenceEntry> = Vec::new();
+        for e in self.presence_entries.iter() {
+            if let Some(ttl) = ttl_ms {
+                if e.last_seen_ms + ttl >= now {
+                    out.push(e.clone());
+                }
+            } else {
+                out.push(e.clone());
+            }
+        }
+        Ok(out)
+    }
+
+    /// Cleaning helper to remove stale entries older than ttl_ms
+    pub fn purge_stale(&mut self, ttl_ms: u64) -> app::Result<()> {
+        let now = env::time_now();
+        self.presence_entries.retain(|e| e.last_seen_ms + ttl_ms >= now);
+        Ok(())
     }
 }
 
