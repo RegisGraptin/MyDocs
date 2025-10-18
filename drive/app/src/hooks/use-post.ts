@@ -33,12 +33,14 @@ export function usePost() {
         const client = await createKvClient(app);
         setApi(client);
         const contexts = await app.fetchContexts();
+        
+        console.log("appUrl:", appUrl)
         if (contexts.length > 0) {
           const context = contexts[0];
           setCurrentContext({
             applicationId: context.applicationId,
             contextId: context.contextId,
-            nodeUrl: appUrl || "http://node1.127.0.0.1.nip.io",
+            nodeUrl: appUrl!,
           });
         }
         // fetch active match id if any

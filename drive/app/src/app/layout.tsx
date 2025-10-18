@@ -15,18 +15,15 @@ import { WalletProvider } from "@/components/wallet/WalletProvider";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
-  title: "Next Tiptap",
+  title: "MyDocs",
   description:
-    "A modern WYSIWYG rich text editor based on tiptap and shadcn ui for ReactJs/NextJs",
-  keywords: "Tiptap, WYSIWYG, Rich Text Editor, ReactJS, NextJS",
-  metadataBase: new URL(`https://next-tiptap.vercel.app`),
+    "A decentralized, self-sovereign platform for collaborative document editing",
   openGraph: {
     type: "website",
-    url: `https://next-tiptap.vercel.app`,
-    title: "Next Tiptap",
+    title: "MyDocs",
     description:
-      "A modern WYSIWYG rich text editor based on tiptap and shadcn ui for ReactJs/NextJs",
-    siteName: "Next Tiptap",
+      "A decentralized, self-sovereign platform for collaborative document editing",
+    siteName: "MyDocs",
     locale: "en_US",
     images: "/opengraph-image.jpg",
   },
